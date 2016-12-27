@@ -15,11 +15,11 @@ public abstract class Layer {
 //    public Layer(List<Neuron> neurons) {
 //        this.neurons = neurons;
 //    }
-    public Layer(int neuronsNumber, int inputsNumber) {
-        neurons = new ArrayList<>(neuronsNumber);
-        neurons.forEach(x -> x.setDataSize(inputsNumber));
-        this.inputsNumber = inputsNumber;
-    }
+//    public Layer(int neuronsNumber, int inputsNumber) {
+//        neurons = new ArrayList<>(neuronsNumber);
+//        neurons.forEach(x -> x.setDataSize(inputsNumber));
+//        this.inputsNumber = inputsNumber;
+//    }
 
     public void addNeuron(Neuron neuron) {
         neurons.add(neuron);

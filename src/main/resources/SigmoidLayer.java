@@ -2,7 +2,7 @@ package nnet;
 
 /**
  * Сигмоидальный слой
- * 
+ *
  * Реализация сигмоидального слоя.
  * В качестве функции активации может использоваться гиперболический тангенс,
  * либо сигмоидальная функция.
@@ -63,8 +63,9 @@ public final class SigmoidLayer implements BackpropLayer {
         float[] output = new float[size];
         for (int i = 0; i < size; i++) {
             output[i] = matrix[i][0][WEIGHT];
-            for (int j = 0; j < inputSize; j++)
+            for (int j = 0; j < inputSize; j++) {
                 output[i] += input[j] * matrix[i][j + 1][WEIGHT];
+            }
             if (bipolar)
                 output[i] = (float)Math.tanh(output[i]);
             else

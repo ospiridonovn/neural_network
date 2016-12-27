@@ -11,6 +11,14 @@ public class Neuron {
     private List<Double> weightsList;
     private double output;
 
+    public List<Double> getInputsList() {
+        return inputsList;
+    }
+
+    public List<Double> getWeightsList() {
+        return weightsList;
+    }
+
     public void setDataSize(int size) {
         inputsList = new ArrayList<>(size);
         weightsList = new ArrayList<>(size);
