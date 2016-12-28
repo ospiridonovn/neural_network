@@ -1,5 +1,7 @@
 package com.ospiridonovn.network.layer;
 
+import com.ospiridonovn.network.Neuron;
+
 import java.util.Collections;
 
 /**
@@ -7,12 +9,11 @@ import java.util.Collections;
  */
 public abstract class BackpropLayer extends Layer {
 
-    public void randomize(double min, double max) {
-        neurons.forEach(neuron -> {
-            neuron.getWeightsList().forEach(weight ->
-                    weight = min + (max - min) * Math.random());
-            Collections.fill(neuron.getDeltas(), 0.0);
-        });
+    public void initAndSetRandomizeWeights(double min, double max) {
+        neurons.forEach(Neuron::initWeights);
+        for (int i = 0; i < neurons.size(); i++) {
+            neurons.get(i).setWeightsAndDeltas(min + (max - min) * Math.random(), 0.0);
+        }
     }
 
     public double[] computeBackwardError(double[] inputs, double[] errors) {
@@ -41,7 +42,7 @@ public abstract class BackpropLayer extends Layer {
 
             for (int j = 0; j < inputsNumber; j++) {
                 neurons.get(i).getDeltas().set(j + 1, rate * input[j] * grad + momentum * neurons.get(i).getDeltas().get(j + 1));
-                neurons.get(i).getWeightsList().set(j + 1, neurons.get(i).getDeltas().get(0));
+                neurons.get(i).getWeightsList().set(j + 1, neurons.get(i).getDeltas().get(j + 1));
             }
 
 

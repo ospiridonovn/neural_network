@@ -1,9 +1,7 @@
 package com.ospiridonovn.network.layer;
 
-import com.ospiridonovn.data.Image;
 import com.ospiridonovn.network.Neuron;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,8 +19,23 @@ public abstract class Layer {
 //        neurons.forEach(x -> x.setDataSize(inputsNumber));
 //        this.inputsNumber = inputsNumber;
 //    }
-    public void setInputs(double[] inputs) {
-        neurons.forEach(x -> x.setInputs(inputs));
+    public void setInputsData(double[] inputs) {
+        neurons.forEach(x -> x.setInputsData(inputs));
+        inputsNumber = inputs.length;
+    }
+
+    public void setOnlyInputs(double[] inputs) {
+        neurons.forEach(x -> x.setOnlyInputs(inputs));
+        inputsNumber = inputs.length;
+    }
+
+    public void setInputsAndWeights(double[] inputs) {
+        neurons.forEach(x -> x.setInputsData(inputs));
+        inputsNumber = inputs.length;
+    }
+
+    public void setWeightsAndDeltasAsZero() {
+        neurons.forEach(Neuron::setWeightsAndDeltasAsZero);
     }
 
     public void addNeuron(Neuron neuron) {

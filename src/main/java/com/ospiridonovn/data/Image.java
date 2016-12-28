@@ -16,7 +16,7 @@ public class Image {
     private Label computedLabel = null;
     private Long id = null;
 
-    public Image(int[] pixels, Label label) {
+    public Image(BufferedImage image, int[] pixels, Label label) {
         this.pixels = pixels;
         this.label = label;
     }
@@ -32,7 +32,7 @@ public class Image {
     public double[] getData() {
         double[] data = new double[pixels.length];
         for (int i = 0; i < pixels.length; i++) {
-            data[i] = pixels[i] / Images.pixelMaxValue;
+            data[i] = 1 - pixels[i] / Images.pixelMaxValue;
         }
         return data;
     }
