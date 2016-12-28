@@ -21,6 +21,22 @@ public class Image {
         this.label = label;
     }
 
+    public int getLabelAsInt() {
+        return label.getValue();
+    }
+
+    public Label getLabel() {
+        return label;
+    }
+
+    public double[] getData() {
+        double[] data = new double[pixels.length];
+        for (int i = 0; i < pixels.length; i++) {
+            data[i] = pixels[i] / Images.pixelMaxValue;
+        }
+        return data;
+    }
+
     public Image(int[] pixels) {
         this.pixels = pixels;
     }

@@ -12,6 +12,7 @@ public class Images {
     public static int pixelsInImage = columns * rows;
     public static String outputPath = "results/";
     public static String imageFormat = "png";
+    public static double pixelMaxValue;
 
     public static int[] labelsCount = new int[10];
 

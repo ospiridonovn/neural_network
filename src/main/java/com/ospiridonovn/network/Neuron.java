@@ -1,6 +1,7 @@
 package com.ospiridonovn.network;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -9,6 +10,7 @@ import java.util.List;
 public class Neuron {
     private List<Double> inputsList;
     private List<Double> weightsList;
+    private List<Double> deltas;
     private double output;
 
     public List<Double> getInputsList() {
@@ -19,9 +21,23 @@ public class Neuron {
         return weightsList;
     }
 
+    public void setInputs(double[] inputs) {
+        setDataSize(inputs.length);
+        Arrays.stream(inputs).forEach(x -> inputsList.add(x));
+    }
+
     public void setDataSize(int size) {
         inputsList = new ArrayList<>(size);
         weightsList = new ArrayList<>(size);
+        deltas = new ArrayList<>(size);
+    }
+
+    public List<Double> getDeltas() {
+        return deltas;
+    }
+
+    public void setDeltas(List<Double> deltas) {
+        this.deltas = deltas;
     }
 
     public void setWeight(int index, double value) {
