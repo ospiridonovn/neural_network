@@ -32,7 +32,7 @@ public class Image {
     public double[] getData() {
         double[] data = new double[pixels.length];
         for (int i = 0; i < pixels.length; i++) {
-            data[i] = (pixels[i] / Images.pixelMaxValue - 1) * 1000000;
+            data[i] = 1.0 - pixels[i] / Images.pixelMaxValue;
         }
         return data;
     }

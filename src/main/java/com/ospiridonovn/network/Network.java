@@ -12,7 +12,6 @@ public class Network {
     private Layer[] layers;
     private int layersNumber;
     private double[][] outputs;
-    private double min, max;
 
     public Network() {
     }
@@ -21,19 +20,22 @@ public class Network {
         this.layers = layers;
         this.layersNumber = layers.length;
         this.outputs = new double[this.layersNumber][];
-        this.max = max;
-        this.min = min;
+    }
+
+    public void randomize(double from, double to) {
+        layers[0].setInputsSize(785);
+        layers[1].setInputsSize(785);
+        ((BackpropLayer) layers[0]).initAndSetRandomizeWeights(from, to);
+        ((BackpropLayer) layers[1]).initAndSetRandomizeWeights(from, to);
     }
 
     public double learnNetwork(Image image, double rate, double momentum) {
         double[] startInputs = image.getData();
 
         layers[0].setOnlyInputs(startInputs);
-        ((BackpropLayer) layers[0]).initAndSetRandomizeWeights(1, 10);
         outputs[0] = layers[0].computeOutput();
         for (int i = 1; i < layersNumber; i++) {
             layers[i].setOnlyInputs(outputs[i - 1]);
-            ((BackpropLayer) layers[i]).initAndSetRandomizeWeights(1, 10);
             outputs[i] = layers[i].computeOutput();
         }
 
@@ -44,7 +46,7 @@ public class Network {
         double[] expectedLayerOutput = new double[layerSize];
         double totalError = calculateError(outputs[layersNumber - 1], image.getLabel());
         for (int i = 0; i < expectedLayerOutput.length; i++) {
-            expectedLayerOutput[i] = i == image.getLabelAsInt() ? 1000000 : 0;
+            expectedLayerOutput[i] = i == image.getLabelAsInt() ? 1.0 : 0.0;
         }
 
         for (int i = 0; i < layerSize; i++) {
@@ -91,7 +93,7 @@ public class Network {
     private double calculateError(double[] output, Label expectedLabel) {
         double error = 0;
         for (int i = 0; i < output.length; i++) {
-            error += Math.pow(output[i] - (expectedLabel.getValue() == i ? 1 : 0), 2);
+            error += Math.pow(output[i] - (expectedLabel.getValue() == i ? 1.0 : 0.0), 2);
         }
         return error / output.length;
     }

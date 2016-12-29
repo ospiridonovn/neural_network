@@ -24,6 +24,14 @@ public abstract class Layer {
         inputsNumber = inputs.length;
     }
 
+    public void setInputsSize(int size) {
+        neurons.forEach(neuron -> neuron.setInputSize(size));
+    }
+
+    public int getInputsSize() {
+        return neurons.get(0).getInputSize();
+    }
+
     public void setOnlyInputs(double[] inputs) {
         neurons.forEach(x -> x.setOnlyInputs(inputs));
         inputsNumber = inputs.length;

@@ -16,9 +16,10 @@ public class Main {
     public static void main(String[] args) throws IOException {
         DataReader reader = new DataReader();
         List<Image> images = reader.readAndSave();
-        Layer firstLayer = new SigmoidLayer(784);
+        Layer firstLayer = new SigmoidLayer(765);
         Layer lastLayer = new SigmoidLayer(10);
         Network network = new Network(new Layer[]{firstLayer, lastLayer}, 0.01, 0.08);
+        network.randomize(0.01, 0.08);
         for (int i = 0; i < 100; i++) {
             network.learnNetwork(images.get(i), 0.85, 0.01);
         }

@@ -13,6 +13,15 @@ public class Neuron {
     private List<Double> weightsList;
     private List<Double> deltas;
     private List<Double> errors;
+    private int inputSize;
+
+    public int getInputSize() {
+        return inputSize;
+    }
+
+    public void setInputSize(int inputSize) {
+        this.inputSize = inputSize;
+    }
 
     public List<Double> getErrors() {
         return errors;
@@ -33,8 +42,8 @@ public class Neuron {
     }
 
     public void initWeights() {
-        weightsList = new ArrayList<>(inputsList.size());
-        deltas = new ArrayList<>(inputsList.size());
+        weightsList = new ArrayList<>(getInputSize());
+        deltas = new ArrayList<>(getInputSize());
     }
 
     public void setInputsData(double[] inputs) {
@@ -67,13 +76,13 @@ public class Neuron {
     }
 
     public void setWeights(double min, double max) {
-        for (int i = 0; i < inputsList.size(); i++) {
+        for (int i = 0; i < getInputSize(); i++) {
             weightsList.add(min + (max - min) * Math.random());
         }
     }
 
     public void setDeltas(double delta) {
-        for (int i = 0; i < inputsList.size(); i++) {
+        for (int i = 0; i < getInputSize(); i++) {
             deltas.add(delta);
         }
     }
@@ -102,7 +111,8 @@ public class Neuron {
     private double calculateInput() {
         double input = 0.0;
         for (int i = 0; i < inputsList.size(); i++) {
-            input += inputsList.get(i) * weightsList.get(i);
+            input += inputsList.get(i)
+                    * weightsList.get(i);
         }
 
         return input;
