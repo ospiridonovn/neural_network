@@ -47,4 +47,6 @@ public abstract class Layer {
     }
 
     abstract public double[] computeOutput();
+
+    abstract public double[] computeOutput(double[] input);
 }

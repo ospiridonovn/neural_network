@@ -12,12 +12,18 @@ public abstract class BackpropLayer extends Layer {
     public void initAndSetRandomizeWeights(double min, double max) {
         neurons.forEach(Neuron::initWeights);
         for (int i = 0; i < neurons.size(); i++) {
-            neurons.get(i).setWeightsAndDeltas(min + (max - min) * Math.random(), 0.0);
+            neurons.get(i).setWeightsAndDeltas(min, max);
         }
     }
 
+//    public double[] changeWeights(double[] inputs, double[] errors) {
+//
+//    }
+
+
+
     public double[] computeBackwardError(double[] inputs, double[] errors) {
-        double[] output = computeOutput();
+        double[] output = computeOutput(inputs);
         final int layerSize = getSize();
         double[] backwardError = new double[inputsNumber];
 
@@ -31,18 +37,18 @@ public abstract class BackpropLayer extends Layer {
     }
 
     public void adjust(double[] input, double[] error, double rate, double momentum) {
-        double[] output = computeOutput();
+        double[] output = computeOutput(input);
         final int layerSize = getSize();
 
         for (int i = 0; i < layerSize; i++) {
             final double grad = error[i] * (output[i] * (1 - output[i]));
             
-            neurons.get(i).getDeltas().set(0, rate * grad + momentum * neurons.get(i).getDeltas().get(0));
-            neurons.get(i).getWeightsList().set(0, neurons.get(i).getDeltas().get(0));
+            neurons.get(i).getDeltas().set(0, rate * grad);
+            neurons.get(i).getWeightsList().set(0, neurons.get(i).getWeightsList().get(0) + neurons.get(i).getDeltas().get(0));
 
             for (int j = 0; j < inputsNumber; j++) {
-                neurons.get(i).getDeltas().set(j + 1, rate * input[j] * grad + momentum * neurons.get(i).getDeltas().get(j + 1));
-                neurons.get(i).getWeightsList().set(j + 1, neurons.get(i).getDeltas().get(j + 1));
+                neurons.get(i).getDeltas().set(j + 1, rate * input[j] * grad);
+                neurons.get(i).getWeightsList().set(j + 1, neurons.get(i).getWeightsList().get(j + 1) +  neurons.get(i).getDeltas().get(j + 1));
             }
 
 

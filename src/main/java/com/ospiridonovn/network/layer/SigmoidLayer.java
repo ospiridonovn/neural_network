@@ -29,4 +29,10 @@ public class SigmoidLayer extends BackpropLayer {
         }
         return output;
     }
+
+    @Override
+    public double[] computeOutput(double[] input) {
+        neurons.forEach(neuron -> neuron.setOnlyInputs(input));
+        return computeOutput();
+    }
 }

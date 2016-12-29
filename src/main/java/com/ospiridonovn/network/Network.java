@@ -29,11 +29,11 @@ public class Network {
         double[] startInputs = image.getData();
 
         layers[0].setOnlyInputs(startInputs);
-        ((BackpropLayer) layers[0]).initAndSetRandomizeWeights(0.01, 0.8);
+        ((BackpropLayer) layers[0]).initAndSetRandomizeWeights(1, 10);
         outputs[0] = layers[0].computeOutput();
         for (int i = 1; i < layersNumber; i++) {
             layers[i].setOnlyInputs(outputs[i - 1]);
-            ((BackpropLayer) layers[i]).initAndSetRandomizeWeights(0.01, 0.8);
+            ((BackpropLayer) layers[i]).initAndSetRandomizeWeights(1, 10);
             outputs[i] = layers[i].computeOutput();
         }
 
@@ -44,18 +44,22 @@ public class Network {
         double[] expectedLayerOutput = new double[layerSize];
         double totalError = calculateError(outputs[layersNumber - 1], image.getLabel());
         for (int i = 0; i < expectedLayerOutput.length; i++) {
-            expectedLayerOutput[i] = i == image.getLabelAsInt() ? 1 : 0;
+            expectedLayerOutput[i] = i == image.getLabelAsInt() ? 1000000 : 0;
         }
 
         for (int i = 0; i < layerSize; i++) {
             layerErrors[i] = expectedLayerOutput[i] - outputs[layersNumber - 1][i];
         }
 
-//        double maxValue = expectedLayerOutput[0];
-//        for (int i = 1; i < expectedLayerOutput.length; i++) {
-//            if (maxValue < expectedLayerOutput[i])
-//                maxValue = expectedLayerOutput[i];
-//        }
+
+
+
+
+        double maxValue = expectedLayerOutput[0];
+        for (int i = 1; i < expectedLayerOutput.length; i++) {
+            if (maxValue < expectedLayerOutput[i])
+                maxValue = expectedLayerOutput[i];
+        }
 
         if (layer instanceof BackpropLayer) {
             ((BackpropLayer) layer).adjust(layersNumber == 1 ? startInputs : outputs[layersNumber - 2],
@@ -65,7 +69,7 @@ public class Network {
         double[] previousLayerErrors = layerErrors;
         Layer previousLayer = layer;
 
-        for (int i = layersNumber - 2; i >= 0; i--, previousLayerErrors = layerErrors, previousLayer = layer) {
+        for (int i = layersNumber - 1; i >= 0; i--, previousLayerErrors = layerErrors, previousLayer = layer) {
             layer = layers[i];
 
             if (previousLayer instanceof BackpropLayer) {
@@ -79,7 +83,7 @@ public class Network {
             }
 
         }
-
+//
         return totalError;
 
     }
